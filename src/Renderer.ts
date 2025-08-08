@@ -14,13 +14,31 @@ export class Renderer {
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new Error('Failed to get canvas context');
     this.ctx = ctx;
-    this.resizeCanvas();
+    
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.resizeCanvas());
+    } else {
+      this.resizeCanvas();
+    }
+    
     window.addEventListener('resize', () => this.resizeCanvas());
+    console.log('Renderer initialized with canvas:', canvas.width, 'x', canvas.height);
   }
 
   private resizeCanvas(): void {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight - 50;
+    const rect = this.canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    
+    this.canvas.width = (window.innerWidth || 800) * dpr;
+    this.canvas.height = ((window.innerHeight || 600) - 56) * dpr;
+    
+    this.canvas.style.width = (window.innerWidth || 800) + 'px';
+    this.canvas.style.height = ((window.innerHeight || 600) - 56) + 'px';
+    
+    this.ctx.scale(dpr, dpr);
+    
+    console.log('Canvas resized to:', this.canvas.width, 'x', this.canvas.height, 'DPR:', dpr);
   }
 
   setZoom(zoom: number): void {
@@ -50,6 +68,7 @@ export class Renderer {
   }
 
   render(mindMap: MindMapCore): void {
+    const dpr = window.devicePixelRatio || 1;
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     this.ctx.save();
@@ -58,6 +77,8 @@ export class Renderer {
 
     const nodes = mindMap.getAllNodes();
     const selectedNode = mindMap.getSelectedNode();
+    
+    console.log(`Rendering ${nodes.length} nodes, canvas: ${this.canvas.width}x${this.canvas.height}, zoom: ${this.viewState.zoom}, DPR: ${dpr}`);
 
     for (const node of nodes) {
       if (node.parent) {

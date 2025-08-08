@@ -32,7 +32,7 @@ export class DeleteNodeCommand implements Command {
   private mindMap: MindMapCore;
   private nodeId: string;
   private nodeData: any;
-  private parentId: string | null;
+  private _parentId: string | null;
   private childrenData: Map<string, any> = new Map();
 
   constructor(mindMap: MindMapCore, nodeId: string) {

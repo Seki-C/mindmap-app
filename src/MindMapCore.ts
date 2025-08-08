@@ -8,7 +8,8 @@ export class MindMapCore {
 
   constructor() {
     this.nodes = new Map();
-    this.rootId = this.createNode('メインテーマ', 400, 300);
+    this.rootId = this.createNode('メインテーマ', 400, 200);
+    this.selectedNodeId = this.rootId;
   }
 
   private generateId(): string {
@@ -133,7 +134,7 @@ export class MindMapCore {
         updatedAt: new Date(),
       },
     };
-    return JSON.stringify(data, (key, value) => {
+    return JSON.stringify(data, (_, value) => {
       if (value instanceof Map) {
         return Array.from(value.entries());
       }

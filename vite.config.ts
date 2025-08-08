@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   build: {
-    target: 'es2020',
+    target: 'esnext',
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -17,8 +17,6 @@ export default defineConfig({
     },
   },
   server: {
-    host: '0.0.0.0',
-    port: 3000,
-    strictPort: true,
+    port: 5173,
   },
 });
