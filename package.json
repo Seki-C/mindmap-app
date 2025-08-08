@@ -1,0 +1,21 @@
+{
+  "name": "ultra-light-mindmap",
+  "version": "1.0.0",
+  "description": "Ultra-lightweight and fast mindmap application",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "tmux": "./dev.sh",
+    "tmux:stop": "./stop-dev.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
+  },
+  "dependencies": {}
+}
