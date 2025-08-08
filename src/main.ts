@@ -23,7 +23,7 @@ class MindMapApp {
     
     this.initializeEventListeners();
     this.loadFromLocalStorage();
-    this.render();
+    this.scheduleRender();
   }
 
   private initializeEventListeners(): void {
@@ -76,7 +76,7 @@ class MindMapApp {
       this.mindMap.selectNode(null);
     }
     
-    this.render();
+    this.scheduleRender();
   }
 
   private handleMouseMove(e: MouseEvent): void {
@@ -87,7 +87,7 @@ class MindMapApp {
         this.panStartOffset.x + dx,
         this.panStartOffset.y + dy
       );
-      this.render();
+      this.scheduleRender();
       return;
     }
     
@@ -100,7 +100,7 @@ class MindMapApp {
       const selectedNode = this.mindMap.getSelectedNode();
       if (selectedNode) {
         this.mindMap.moveNode(selectedNode.id, worldPos.x, worldPos.y);
-        this.render();
+        this.scheduleRender();
       }
     }
   }
@@ -135,13 +135,13 @@ class MindMapApp {
     if (node) {
       if (e.ctrlKey || e.metaKey) {
         this.mindMap.toggleCollapse(node.id);
-        this.render();
+        this.scheduleRender();
       } else {
         const newText = prompt('ノードのテキストを編集:', node.text);
         if (newText !== null && newText !== node.text) {
           const command = new EditNodeCommand(this.mindMap, node.id, newText);
           this.commandManager.execute(command);
-          this.render();
+          this.scheduleRender();
         }
       }
     } else {
@@ -157,7 +157,7 @@ class MindMapApp {
           worldPos.y
         );
         this.commandManager.execute(command);
-        this.render();
+        this.scheduleRender();
       }
     }
     
@@ -169,7 +169,7 @@ class MindMapApp {
     const viewState = this.renderer.getViewState();
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
     this.renderer.setZoom(viewState.zoom * delta);
-    this.render();
+    this.scheduleRender();
   }
 
   private handleKeyDown(e: KeyboardEvent): void {
@@ -213,7 +213,7 @@ class MindMapApp {
           y
         );
         this.commandManager.execute(command);
-        this.render();
+        this.scheduleRender();
         this.saveToLocalStorage();
       }
     }
@@ -224,21 +224,21 @@ class MindMapApp {
     if (selectedNode && selectedNode.id !== this.mindMap.getRootNode()?.id) {
       const command = new DeleteNodeCommand(this.mindMap, selectedNode.id);
       this.commandManager.execute(command);
-      this.render();
+      this.scheduleRender();
       this.saveToLocalStorage();
     }
   }
 
   private undo(): void {
     if (this.commandManager.undo()) {
-      this.render();
+      this.scheduleRender();
       this.saveToLocalStorage();
     }
   }
 
   private redo(): void {
     if (this.commandManager.redo()) {
-      this.render();
+      this.scheduleRender();
       this.saveToLocalStorage();
     }
   }
@@ -246,18 +246,18 @@ class MindMapApp {
   private zoomIn(): void {
     const viewState = this.renderer.getViewState();
     this.renderer.setZoom(viewState.zoom * 1.2);
-    this.render();
+    this.scheduleRender();
   }
 
   private zoomOut(): void {
     const viewState = this.renderer.getViewState();
     this.renderer.setZoom(viewState.zoom * 0.8);
-    this.render();
+    this.scheduleRender();
   }
 
   private fitToScreen(): void {
     this.renderer.fitToScreen(this.mindMap);
-    this.render();
+    this.scheduleRender();
   }
 
   private saveToLocalStorage(): void {
@@ -298,7 +298,7 @@ class MindMapApp {
         const content = e.target?.result as string;
         this.mindMap.importFromJSON(content);
         this.commandManager.clear();
-        this.render();
+        this.scheduleRender();
         this.saveToLocalStorage();
       };
       reader.readAsText(file);
@@ -308,6 +308,18 @@ class MindMapApp {
   private render(): void {
     this.renderer.render(this.mindMap);
   }
+
+  private scheduleRender(): void {
+    if (!this.renderScheduled) {
+      this.renderScheduled = true;
+      requestAnimationFrame(() => {
+        this.scheduleRender();
+        this.renderScheduled = false;
+      });
+    }
+  }
+
+  private renderScheduled = false;
 }
 
 new MindMapApp();

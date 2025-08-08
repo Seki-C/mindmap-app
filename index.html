@@ -4,20 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ultra Light MindMap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/style.css">
+  <meta name="description" content="高速で軽量、美しいマインドマップアプリケーション">
+  <meta name="theme-color" content="#6366f1">
 </head>
 <body>
   <div id="app">
     <div class="toolbar">
-      <button id="add-node" title="ノード追加 (Tab)">+</button>
-      <button id="delete-node" title="ノード削除 (Delete)">-</button>
-      <button id="undo" title="元に戻す (Ctrl+Z)">↶</button>
-      <button id="redo" title="やり直し (Ctrl+Y)">↷</button>
+      <button id="add-node" title="ノード追加 (Tab)">✨ ノード追加</button>
+      <div class="separator"></div>
+      <button id="delete-node" title="ノード削除 (Delete)">🗑️ 削除</button>
+      <div class="separator"></div>
+      <button id="undo" title="元に戻す (Ctrl+Z)">↶ 戻す</button>
+      <button id="redo" title="やり直し (Ctrl+Y)">↷ 進む</button>
+      <div class="separator"></div>
       <button id="zoom-in" title="拡大">🔍+</button>
       <button id="zoom-out" title="縮小">🔍-</button>
-      <button id="fit" title="全体表示">⊡</button>
-      <button id="save" title="保存 (Ctrl+S)">💾</button>
-      <button id="load" title="読み込み">📁</button>
+      <button id="fit" title="全体表示">🎯 全体表示</button>
+      <div class="separator"></div>
+      <button id="save" title="保存 (Ctrl+S)">💾 保存</button>
+      <button id="load" title="読み込み">📁 読込</button>
       <input type="file" id="file-input" accept=".json" style="display: none;">
     </div>
     <canvas id="mindmap-canvas"></canvas>

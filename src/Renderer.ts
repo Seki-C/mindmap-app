@@ -80,49 +80,102 @@ export class Renderer {
   }
 
   private drawNode(node: MindMapNode, isSelected: boolean): void {
-    const width = 120;
-    const height = 40;
+    const width = 140;
+    const height = 50;
     const x = node.x - width / 2;
     const y = node.y - height / 2;
+    const radius = 12;
 
-    this.ctx.fillStyle = isSelected ? '#e3f2fd' : '#ffffff';
-    this.ctx.strokeStyle = isSelected ? '#2196f3' : '#9e9e9e';
-    this.ctx.lineWidth = isSelected ? 2 : 1;
+    this.ctx.save();
+
+    if (isSelected) {
+      this.ctx.shadowColor = 'rgba(99, 102, 241, 0.4)';
+      this.ctx.shadowBlur = 20;
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 4;
+    } else {
+      this.ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+      this.ctx.shadowBlur = 10;
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 2;
+    }
+
+    const gradient = this.ctx.createLinearGradient(x, y, x, y + height);
+    if (isSelected) {
+      gradient.addColorStop(0, '#6366f1');
+      gradient.addColorStop(1, '#4f46e5');
+    } else {
+      gradient.addColorStop(0, '#ffffff');
+      gradient.addColorStop(1, '#f8fafc');
+    }
+    
+    this.ctx.fillStyle = gradient;
 
     this.ctx.beginPath();
-    this.ctx.roundRect(x, y, width, height, 8);
+    this.ctx.roundRect(x, y, width, height, radius);
     this.ctx.fill();
+
+    this.ctx.shadowBlur = 0;
+    this.ctx.strokeStyle = isSelected ? '#4f46e5' : '#e2e8f0';
+    this.ctx.lineWidth = isSelected ? 2 : 1;
     this.ctx.stroke();
 
-    this.ctx.fillStyle = '#333333';
-    this.ctx.font = '14px sans-serif';
+    const textColor = isSelected ? '#ffffff' : '#1e293b';
+    this.ctx.fillStyle = textColor;
+    this.ctx.font = '600 14px Inter, -apple-system, sans-serif';
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     
-    const maxWidth = width - 10;
+    const maxWidth = width - 20;
     const text = this.truncateText(node.text, maxWidth);
     this.ctx.fillText(text, node.x, node.y);
 
     if (node.children.length > 0 && node.collapsed) {
-      this.ctx.fillStyle = '#666666';
-      this.ctx.font = '12px sans-serif';
-      this.ctx.fillText('[+]', node.x + width / 2 - 15, node.y);
+      const buttonX = node.x + width / 2 - 15;
+      const buttonY = node.y + height / 2 - 10;
+      
+      this.ctx.fillStyle = isSelected ? 'rgba(255, 255, 255, 0.3)' : 'rgba(99, 102, 241, 0.1)';
+      this.ctx.beginPath();
+      this.ctx.roundRect(buttonX - 8, buttonY - 8, 16, 16, 4);
+      this.ctx.fill();
+      
+      this.ctx.fillStyle = isSelected ? '#ffffff' : '#6366f1';
+      this.ctx.font = '600 12px Inter, sans-serif';
+      this.ctx.textAlign = 'center';
+      this.ctx.textBaseline = 'middle';
+      this.ctx.fillText('+', buttonX, buttonY);
     }
+
+    this.ctx.restore();
   }
 
   private drawConnection(parent: MindMapNode, child: MindMapNode): void {
-    this.ctx.strokeStyle = '#9e9e9e';
-    this.ctx.lineWidth = 1;
+    this.ctx.save();
+    
+    const gradient = this.ctx.createLinearGradient(parent.x, parent.y, child.x, child.y);
+    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.6)');
+    gradient.addColorStop(1, 'rgba(99, 102, 241, 0.3)');
+    
+    this.ctx.strokeStyle = gradient;
+    this.ctx.lineWidth = 2;
+    this.ctx.lineCap = 'round';
+    this.ctx.lineJoin = 'round';
+    
+    this.ctx.shadowColor = 'rgba(99, 102, 241, 0.2)';
+    this.ctx.shadowBlur = 4;
+    
     this.ctx.beginPath();
     
-    const cp1x = parent.x + (child.x - parent.x) * 0.5;
+    const cp1x = parent.x + (child.x - parent.x) * 0.6;
     const cp1y = parent.y;
-    const cp2x = parent.x + (child.x - parent.x) * 0.5;
+    const cp2x = parent.x + (child.x - parent.x) * 0.4;
     const cp2y = child.y;
     
     this.ctx.moveTo(parent.x, parent.y);
     this.ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, child.x, child.y);
     this.ctx.stroke();
+    
+    this.ctx.restore();
   }
 
   private truncateText(text: string, maxWidth: number): string {
