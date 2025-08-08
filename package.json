@@ -8,9 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src --ext .ts,.tsx",
-    "tmux": "./dev.sh",
-    "tmux:stop": "./stop-dev.sh"
+    "lint": "eslint src --ext .ts,.tsx"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
