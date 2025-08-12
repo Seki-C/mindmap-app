@@ -1,0 +1,30 @@
+# 基本設定ファイル
+environment:
+  name: "AirCombatYouth"
+  version: "1.0.0"
+  seed: 42
+  
+simulation:
+  max_episodes: 10000
+  max_steps_per_episode: 1000
+  time_limit_per_step: 3.0  # 秒
+  memory_limit_mb: 7500
+  
+team:
+  num_fighters: 4
+  num_escorts: 1
+  initial_formation: "diamond"
+  
+observation:
+  type: "complete"  # ユース部門は完全観測
+  update_frequency: 1  # 毎ステップ更新
+  
+action:
+  type: "discrete"
+  num_actions: 9  # 上下左右、斜め4方向、停止
+  
+logging:
+  level: "INFO"
+  save_interval: 100
+  tensorboard: true
+  wandb: false

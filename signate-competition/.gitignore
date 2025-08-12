@@ -8,32 +8,28 @@ venv/
 env/
 ENV/
 
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb_checkpoints/
-
-# Data files
-data/raw/*
-data/processed/*
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-*.csv
-*.xlsx
-*.json
-*.parquet
-*.pkl
-*.pickle
-*.h5
-*.hdf5
+# Simulator
+simulator/
+simulator_dist.zip
 
 # Models
 models/*.pkl
-models/*.joblib
-models/*.h5
 models/*.pt
 models/*.pth
-models/*.onnx
+models/checkpoint/*
 !models/.gitkeep
+
+# Logs
+logs/**/*.log
+logs/training/*
+logs/evaluation/*
+logs/battle/*
+!logs/.gitkeep
+
+# Data
+*.csv
+*.json
+*.parquet
 
 # IDE
 .vscode/
@@ -46,18 +42,22 @@ models/*.onnx
 .DS_Store
 Thumbs.db
 
-# Logs
-logs/
-*.log
+# Jupyter
+.ipynb_checkpoints/
 
-# Submissions (keep tracking but ignore large files)
-submissions/*.csv
-!submissions/.gitkeep
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
 
-# Environment variables
+# Environment
 .env
 
-# Temporary files
+# Temporary
 tmp/
 temp/
 *.tmp
+
+# Memory profiling
+*.dat
+mprofile_*
