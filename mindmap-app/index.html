@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultra Light MindMap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+        
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: grab;
+        }
+        
+        #canvas:active {
+            cursor: grabbing;
+        }
+        
+        .toolbar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .toolbar button {
+            padding: 8px 16px;
+            border: none;
+            background: #007AFF;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .toolbar button:hover {
+            background: #0051D5;
+        }
+        
+        .help {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 100;
+        }
+        
+        .help h3 {
+            margin-bottom: 10px;
+        }
+        
+        .help-item {
+            margin: 5px 0;
+        }
+        
+        .help kbd {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="toolbar">
+        <button id="addNode">ノード追加 (Tab)</button>
+        <button id="deleteNode">削除 (Delete)</button>
+        <button id="resetView">リセット (R)</button>
+        <button id="save">保存 (Ctrl+S)</button>
+        <button id="export">エクスポート</button>
+    </div>
+    
+    <div class="help">
+        <h3>キーボードショートカット</h3>
+        <div class="help-item"><kbd>Tab</kbd> 子ノード追加</div>
+        <div class="help-item"><kbd>Enter</kbd> 兄弟ノード追加</div>
+        <div class="help-item"><kbd>Delete</kbd> ノード削除</div>
+        <div class="help-item"><kbd>F2</kbd> ノード編集</div>
+        <div class="help-item"><kbd>↑↓←→</kbd> ノード選択移動</div>
+        <div class="help-item"><kbd>Space</kbd> ドラッグモード</div>
+        <div class="help-item"><kbd>+/-</kbd> ズーム</div>
+    </div>
+    
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

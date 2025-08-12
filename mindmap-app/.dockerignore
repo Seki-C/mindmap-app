@@ -1,0 +1,17 @@
+node_modules
+dist
+.git
+.gitignore
+*.md
+.env*
+.vscode
+.idea
+*.log
+coverage
+.nyc_output
+.cache
+.parcel-cache
+.eslintcache
+Dockerfile
+docker-compose.yml
+.dockerignore
