@@ -38,3 +38,6 @@ temp/
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Backup directories
+infrastructure-learning-backup/
