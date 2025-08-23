@@ -41,3 +41,46 @@ temp/
 
 # Backup directories
 infrastructure-learning-backup/
+
+# Rust
+target/
+**/*.rs.bk
+*.pdb
+Cargo.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.sum
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+.gradle/
+gradle/
+gradlew
+gradlew.bat
