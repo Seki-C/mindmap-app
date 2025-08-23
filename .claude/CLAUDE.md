@@ -1,14 +1,49 @@
 # 🏠 Global Project Context
 
+## 🔴 最重要：Git運用ルール（全プロジェクト必須）
+
+### 絶対ルール
+**すべての機能追加・変更・修正後は必ずGitでコミット・プッシュすること**
+
+### 標準ワークフロー
+```bash
+# 1. ビルド・テスト（プロジェクトに応じて）
+cargo build      # Rust
+npm run build    # Node.js
+python test.py   # Python
+
+# 2. Git操作（共通）
+git add .
+git commit -m "type: 簡潔な説明"
+git push
+```
+
+### コミットメッセージ規約
+- `feat:` 新機能追加
+- `fix:` バグ修正  
+- `refactor:` リファクタリング
+- `docs:` ドキュメント更新
+- `perf:` パフォーマンス改善
+- `chore:` その他の変更
+- `style:` コードスタイル
+
+### 重要性
+- 作業内容の保全
+- 履歴管理とトレーサビリティ
+- チーム開発での情報共有
+
+---
+
 ## 📁 Repository Overview
 このリポジトリは複数の学習プロジェクトを管理するモノレポです。
 
 ### Projects
 - **infrastructure-learning/**: インフラ学習用プロジェクト（Docker, nginx, 監視）
-- **mindmap-app/**: TypeScript製マインドマップアプリケーション
+- **mindmap-app/**: Rust製超高速マインドマップアプリケーション（Lightning MindMap）
 - **mitsui-commodity-prediction/**: 三井物産商品価格予測チャレンジ
 - **signate-competition/**: SIGNATE AIコンペティション
 - **personal-blog/**: 個人ブログプロジェクト
+- **claude-code-sdk/**: Claude Code SDK開発
 
 ## 🖥️ Development Environment
 - **OS**: Windows with WSL2 (Ubuntu)
