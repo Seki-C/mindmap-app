@@ -138,6 +138,12 @@ cargo test
 - パフォーマンス測定を常に行い、退行を防ぐ
 - **Git運用ルールは必ず守ること（上記参照）**
 
+## リポジトリ情報
+- **メインリポジトリ**: https://github.com/Seki-C/mindmap-app
+- **プロジェクトパス**: `/mindmap-app/` (モノレポ内のサブディレクトリ)
+- **管理方式**: モノレポの一部として管理
+
 ## 関連ドキュメント
 - `mindmap-requirements.md`: 詳細な要件定義と技術仕様
 - `README.md`: プロジェクトの公開情報
+- `/.claude/CLAUDE.md`: グローバル設定とGit運用ルール

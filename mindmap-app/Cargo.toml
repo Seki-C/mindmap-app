@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["Lightning MindMap Team"]
 description = "Ultra-fast native mindmap application"
 license = "MIT"
-repository = "https://github.com/yourusername/lightning-mindmap"
+repository = "https://github.com/Seki-C/mindmap-app"
 
 [dependencies]
 # GUI framework - 最小構成から始める
