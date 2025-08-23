@@ -36,7 +36,7 @@ This project is in early development (v0.1.0). Basic functionality includes:
 ```bash
 # Clone the repository
 git clone https://github.com/Seki-C/mindmap-app.git
-cd mindmap-app/mindmap-app
+cd mindmap-app
 
 # Build the project
 cargo build --release

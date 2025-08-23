@@ -1,13 +1,10 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Rust build artifacts
+/target/
+**/*.rs.bk
+*.pdb
 
-# Build output
-dist/
-build/
-*.tsbuildinfo
+# Cargo lock for libraries (keep for applications)
+# Cargo.lock
 
 # IDE and editor files
 .vscode/
@@ -17,70 +14,19 @@ build/
 *~
 .DS_Store
 
-# Environment files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Logs
-logs/
-*.log
-
-# Testing
-coverage/
-.nyc_output/
+# Debug files
+*.dSYM/
 
 # Temporary files
-tmp/
-temp/
+*.tmp
+*.bak
+*.backup
 
-# Claude Code local settings
-.claude/settings.local.json
+# OS specific files
+Thumbs.db
+desktop.ini
 
-# Backup directories
-infrastructure-learning-backup/
-
-# Rust
-target/
-**/*.rs.bk
-*.pdb
-Cargo.lock
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-.venv
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb_checkpoints/
-
-# Go
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-*.test
-*.out
-go.sum
-
-# Java
-*.class
-*.jar
-*.war
-*.ear
-*.iml
-.gradle/
-gradle/
-gradlew
-gradlew.bat
+# Project specific
+*.log
+/dist/
+/build/

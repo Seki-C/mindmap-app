@@ -1,7 +1,7 @@
 # Lightning MindMap - プロジェクトコンテキスト
 
-## ⚠️ 重要：Git運用ルール（全プロジェクト共通）
-**このルールは、Lightning MindMapだけでなく、すべてのプロジェクトで適用されます**
+## ⚠️ 重要：Git運用ルール
+**すべての機能追加・変更・修正後は必ずGitでコミット・プッシュすること**
 
 ### 必須のGitワークフロー
 **すべての機能追加・変更・修正後は必ずGitでコミット・プッシュすること**
@@ -139,11 +139,10 @@ cargo test
 - **Git運用ルールは必ず守ること（上記参照）**
 
 ## リポジトリ情報
-- **メインリポジトリ**: https://github.com/Seki-C/mindmap-app
-- **プロジェクトパス**: `/mindmap-app/` (モノレポ内のサブディレクトリ)
-- **管理方式**: モノレポの一部として管理
+- **リポジトリ**: https://github.com/Seki-C/mindmap-app
+- **プロジェクト名**: Lightning MindMap
+- **管理方式**: 単独リポジトリ（Lightning MindMap専用）
 
 ## 関連ドキュメント
 - `mindmap-requirements.md`: 詳細な要件定義と技術仕様
 - `README.md`: プロジェクトの公開情報
-- `/.claude/CLAUDE.md`: グローバル設定とGit運用ルール
