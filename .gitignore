@@ -30,12 +30,3 @@ desktop.ini
 *.log
 /dist/
 /build/
-
-# Other projects (not part of Lightning MindMap)
-/book-review-platform/
-/claude-code-sdk/
-/infrastructure-learning/
-/infrastructure-learning-backup/
-/my-os/
-/personal-blog/
-/mitsui-commodity-prediction/
