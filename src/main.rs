@@ -61,6 +61,50 @@ impl Default for MindMapApp {
     }
 }
 
+impl MindMapApp {
+    // 矢印キーによるノード選択移動
+    fn select_nearby_node(&mut self, direction: egui::Vec2) {
+        if let Some(current_id) = self.selected_node {
+            if let Some(current_node) = self.nodes.iter().find(|n| n.id == current_id) {
+                let mut best_node_id: Option<usize> = None;
+                let mut best_distance = f32::INFINITY;
+                
+                for node in &self.nodes {
+                    if node.id == current_id {
+                        continue;
+                    }
+                    
+                    let delta = node.position - current_node.position;
+                    
+                    // 指定方向にあるノードのみを対象とする
+                    let dot_product = delta.x * direction.x + delta.y * direction.y;
+                    if dot_product <= 0.0 {
+                        continue;
+                    }
+                    
+                    let distance = delta.length();
+                    
+                    // 方向性を考慮した距離計算
+                    let angle_penalty = 1.0 - (dot_product / distance).abs();
+                    let adjusted_distance = distance * (1.0 + angle_penalty);
+                    
+                    if adjusted_distance < best_distance {
+                        best_distance = adjusted_distance;
+                        best_node_id = Some(node.id);
+                    }
+                }
+                
+                if let Some(new_id) = best_node_id {
+                    self.selected_node = Some(new_id);
+                }
+            }
+        } else if !self.nodes.is_empty() {
+            // 何も選択されていない場合は最初のノードを選択
+            self.selected_node = Some(self.nodes[0].id);
+        }
+    }
+}
+
 impl eframe::App for MindMapApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
@@ -89,6 +133,9 @@ impl eframe::App for MindMapApp {
                 if let Some(selected) = self.selected_node {
                     ui.label(format!("Selected: Node {}", selected));
                 }
+                
+                ui.separator();
+                ui.label("⌨️ Shortcuts: Tab=Add Child, Del=Delete, F2=Edit, ←↑↓→=Select");
             });
             
             ui.separator();
@@ -258,6 +305,82 @@ impl eframe::App for MindMapApp {
             if drag_released {
                 self.dragging_node = None;
                 self.drag_offset = egui::Vec2::ZERO;
+            }
+            
+            // キーボードショートカット処理（編集モードでない場合のみ）
+            if self.editing_node.is_none() {
+                ui.input(|i| {
+                    // Tab: 子ノードを追加
+                    if i.key_pressed(egui::Key::Tab) {
+                        if let Some(selected_id) = self.selected_node {
+                            let selected_pos = self.nodes.iter()
+                                .find(|n| n.id == selected_id)
+                                .map(|n| n.position)
+                                .unwrap_or(egui::Pos2::new(400.0, 300.0));
+                            
+                            let new_node = Node {
+                                id: self.next_id,
+                                text: format!("Node {}", self.next_id),
+                                position: egui::Pos2::new(
+                                    selected_pos.x + 150.0,
+                                    selected_pos.y + 80.0,
+                                ),
+                                parent_id: Some(selected_id),
+                            };
+                            self.nodes.push(new_node);
+                            self.selected_node = Some(self.next_id);
+                            self.next_id += 1;
+                        }
+                    }
+                    
+                    // Delete: ノードを削除（ルートノードは保護）
+                    if i.key_pressed(egui::Key::Delete) {
+                        if let Some(selected_id) = self.selected_node {
+                            if selected_id != 0 { // ルートノード（ID: 0）は削除不可
+                                // 削除対象ノードの子ノードも一緒に削除
+                                let mut nodes_to_remove = vec![selected_id];
+                                let mut i = 0;
+                                while i < nodes_to_remove.len() {
+                                    let parent_id = nodes_to_remove[i];
+                                    for node in &self.nodes {
+                                        if node.parent_id == Some(parent_id) {
+                                            nodes_to_remove.push(node.id);
+                                        }
+                                    }
+                                    i += 1;
+                                }
+                                
+                                // ノードを削除
+                                self.nodes.retain(|n| !nodes_to_remove.contains(&n.id));
+                                self.selected_node = None;
+                            }
+                        }
+                    }
+                    
+                    // F2: 編集モード開始
+                    if i.key_pressed(egui::Key::F2) {
+                        if let Some(selected_id) = self.selected_node {
+                            self.editing_node = Some(selected_id);
+                            if let Some(node) = self.nodes.iter().find(|n| n.id == selected_id) {
+                                self.edit_text = node.text.clone();
+                            }
+                        }
+                    }
+                    
+                    // 矢印キーでノード選択移動
+                    if i.key_pressed(egui::Key::ArrowUp) {
+                        self.select_nearby_node(egui::Vec2::new(0.0, -1.0));
+                    }
+                    if i.key_pressed(egui::Key::ArrowDown) {
+                        self.select_nearby_node(egui::Vec2::new(0.0, 1.0));
+                    }
+                    if i.key_pressed(egui::Key::ArrowLeft) {
+                        self.select_nearby_node(egui::Vec2::new(-1.0, 0.0));
+                    }
+                    if i.key_pressed(egui::Key::ArrowRight) {
+                        self.select_nearby_node(egui::Vec2::new(1.0, 0.0));
+                    }
+                });
             }
             
             ui.separator();
